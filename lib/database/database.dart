@@ -16,6 +16,7 @@ class Sites extends Table {
 class Lots extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get lotNumber => text().withLength(min: 1, max: 50)();
+  DateTimeColumn get expirationDate => dateTime().nullable()();
 }
 
 class InventorySnapshots extends Table {
@@ -31,7 +32,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
@@ -40,7 +41,10 @@ class AppDatabase extends _$AppDatabase {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // Add future migrations here
+        if (from == 1 && to == 2) {
+          // Add expiration_date column to lots table
+          await m.addColumn(lots, lots.expirationDate);
+        }
       },
     );
   }
