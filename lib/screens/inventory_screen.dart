@@ -100,7 +100,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                               items: lots.map((lot) {
                                 return DropdownMenuItem(
                                   value: lot.id,
-                                  child: Text(lot.lotNumber),
+                                  child: Text('${lot.lotNumber}${_formatExpirationDate(lot.expirationDate)}'),
                                 );
                               }).toList(),
                               onChanged: (value) {
@@ -219,5 +219,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
   
   String _formatDate(DateTime date) {
     return '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
+  }
+
+  String _formatExpirationDate(DateTime? date) {
+    if (date == null) return '';
+    return ' (Exp: ${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')})';
   }
 }
