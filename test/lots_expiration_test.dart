@@ -1,11 +1,12 @@
 // Test for expiration date functionality
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:drift/native.dart';
+import 'package:matcher/matcher.dart' as matcher;
 
 // Import the database classes
-import '../lib/database/database.dart';
+import 'package:inventory_tracker/database/database.dart';
 
 void main() {
   group('Lots Expiration Date Tests', () {
@@ -13,8 +14,7 @@ void main() {
 
     setUp(() async {
       // Create an in-memory database for testing
-      database = AppDatabase()
-        ..executor = DatabaseExecutor(NativeDatabase.memory());
+      database = AppDatabase.memory();
     });
 
     tearDown(() async {
@@ -28,7 +28,7 @@ void main() {
       final lotId = await database.insertLot(
         LotsCompanion.insert(
           lotNumber: 'TEST-001',
-          expirationDate: Value(expirationDate),
+          expirationDate: drift.Value(expirationDate),
         ),
       );
 
@@ -49,7 +49,7 @@ void main() {
       final lot = await database.getLotById(lotId);
 
       expect(lot.lotNumber, equals('TEST-002'));
-      expect(lot.expirationDate, isNull);
+      expect(lot.expirationDate, matcher.isNull);
     });
 
     test('should update lot expiration date', () async {
@@ -60,12 +60,12 @@ void main() {
 
       // Get the original lot
       final originalLot = await database.getLotById(lotId);
-      expect(originalLot.expirationDate, isNull);
+      expect(originalLot.expirationDate, matcher.isNull);
 
       // Update with expiration date
       final expirationDate = DateTime(2025, 6, 15);
       final updatedLot = originalLot.copyWith(
-        expirationDate: Value(expirationDate),
+        expirationDate: drift.Value(expirationDate),
       );
 
       await database.updateLot(updatedLot);
@@ -82,7 +82,7 @@ void main() {
       final lotId = await database.insertLot(
         LotsCompanion.insert(
           lotNumber: 'TEST-004',
-          expirationDate: Value(expirationDate),
+          expirationDate: drift.Value(expirationDate),
         ),
       );
 
@@ -92,14 +92,14 @@ void main() {
 
       // Clear expiration date
       final updatedLot = originalLot.copyWith(
-        expirationDate: const Value(null),
+        expirationDate: const drift.Value(null),
       );
 
       await database.updateLot(updatedLot);
 
       // Retrieve the updated lot
       final retrievedLot = await database.getLotById(lotId);
-      expect(retrievedLot.expirationDate, isNull);
+      expect(retrievedLot.expirationDate, matcher.isNull);
     });
 
     test('should handle database migration from version 1 to 2', () async {
@@ -113,12 +113,12 @@ void main() {
       final lotId = await database.insertLot(
         LotsCompanion.insert(
           lotNumber: 'MIGRATION-TEST',
-          expirationDate: Value(DateTime(2025, 1, 1)),
+          expirationDate: drift.Value(DateTime(2025, 1, 1)),
         ),
       );
 
       final lot = await database.getLotById(lotId);
-      expect(lot.expirationDate, isNotNull);
+      expect(lot.expirationDate, matcher.isNotNull);
     });
   });
 }

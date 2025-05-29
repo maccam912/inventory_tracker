@@ -31,6 +31,9 @@ class InventorySnapshots extends Table {
 @DriftDatabase(tables: [Sites, Lots, InventorySnapshots])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
+  
+  // Constructor for testing
+  AppDatabase.memory() : super(NativeDatabase.memory());
 
   @override
   int get schemaVersion => 2;

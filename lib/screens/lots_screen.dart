@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:drift/drift.dart';
+import 'package:drift/drift.dart' as drift;
 import '../database/database.dart';
 import '../database/database_provider.dart';
 
@@ -122,8 +122,8 @@ class LotsScreenState extends State<LotsScreen> {
                               LotsCompanion.insert(
                                 lotNumber: _lotNumberController.text,
                                 expirationDate: _selectedExpirationDate != null
-                                    ? Value(_selectedExpirationDate)
-                                    : const Value.absent(),
+                                    ? drift.Value(_selectedExpirationDate)
+                                    : const drift.Value.absent(),
                               ),
                             );
                             _lotNumberController.clear();
@@ -312,7 +312,7 @@ class _EditLotDialogState extends State<_EditLotDialog> {
             if (_editController.text.isNotEmpty) {
               final updatedLot = widget.lot.copyWith(
                 lotNumber: _editController.text,
-                expirationDate: Value(_selectedExpirationDate),
+                expirationDate: drift.Value(_selectedExpirationDate),
               );
               widget.onSave(updatedLot);
               if (context.mounted) {
