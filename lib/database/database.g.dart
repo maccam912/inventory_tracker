@@ -235,13 +235,14 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
     'expirationDate',
   );
   @override
-  late final GeneratedColumn<DateTime> expirationDate = GeneratedColumn<DateTime>(
-    'expiration_date',
-    aliasedName,
-    true,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-  );
+  late final GeneratedColumn<DateTime> expirationDate =
+      GeneratedColumn<DateTime>(
+        'expiration_date',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [id, lotNumber, expirationDate];
   @override
@@ -270,7 +271,10 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
     if (data.containsKey('expiration_date')) {
       context.handle(
         _expirationDateMeta,
-        expirationDate.isAcceptableOrUnknown(data['expiration_date']!, _expirationDateMeta),
+        expirationDate.isAcceptableOrUnknown(
+          data['expiration_date']!,
+          _expirationDateMeta,
+        ),
       );
     }
     return context;
@@ -350,17 +354,24 @@ class Lot extends DataClass implements Insertable<Lot> {
     };
   }
 
-  Lot copyWith({int? id, String? lotNumber, Value<DateTime?> expirationDate = const Value.absent()}) =>
-      Lot(
-        id: id ?? this.id, 
-        lotNumber: lotNumber ?? this.lotNumber,
-        expirationDate: expirationDate.present ? expirationDate.value : this.expirationDate,
-      );
+  Lot copyWith({
+    int? id,
+    String? lotNumber,
+    Value<DateTime?> expirationDate = const Value.absent(),
+  }) => Lot(
+    id: id ?? this.id,
+    lotNumber: lotNumber ?? this.lotNumber,
+    expirationDate: expirationDate.present
+        ? expirationDate.value
+        : this.expirationDate,
+  );
   Lot copyWithCompanion(LotsCompanion data) {
     return Lot(
       id: data.id.present ? data.id.value : this.id,
       lotNumber: data.lotNumber.present ? data.lotNumber.value : this.lotNumber,
-      expirationDate: data.expirationDate.present ? data.expirationDate.value : this.expirationDate,
+      expirationDate: data.expirationDate.present
+          ? data.expirationDate.value
+          : this.expirationDate,
     );
   }
 
@@ -411,7 +422,11 @@ class LotsCompanion extends UpdateCompanion<Lot> {
     });
   }
 
-  LotsCompanion copyWith({Value<int>? id, Value<String>? lotNumber, Value<DateTime?>? expirationDate}) {
+  LotsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? lotNumber,
+    Value<DateTime?>? expirationDate,
+  }) {
     return LotsCompanion(
       id: id ?? this.id,
       lotNumber: lotNumber ?? this.lotNumber,

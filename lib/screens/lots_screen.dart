@@ -26,7 +26,9 @@ class LotsScreenState extends State<LotsScreen> {
       context: context,
       initialDate: _selectedExpirationDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 10)), // 10 years from now
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 10),
+      ), // 10 years from now
     );
     if (picked != null && picked != _selectedExpirationDate) {
       setState(() {
@@ -87,8 +89,8 @@ class LotsScreenState extends State<LotsScreen> {
                             child: Text(
                               _formatDate(_selectedExpirationDate),
                               style: TextStyle(
-                                color: _selectedExpirationDate == null 
-                                    ? Colors.grey 
+                                color: _selectedExpirationDate == null
+                                    ? Colors.grey
                                     : null,
                               ),
                             ),
@@ -119,8 +121,8 @@ class LotsScreenState extends State<LotsScreen> {
                             await database.insertLot(
                               LotsCompanion.insert(
                                 lotNumber: _lotNumberController.text,
-                                expirationDate: _selectedExpirationDate != null 
-                                    ? Value(_selectedExpirationDate) 
+                                expirationDate: _selectedExpirationDate != null
+                                    ? Value(_selectedExpirationDate)
                                     : const Value.absent(),
                               ),
                             );
@@ -164,8 +166,9 @@ class LotsScreenState extends State<LotsScreen> {
                       subtitle: Text(
                         'Expires: ${_formatDate(lot.expirationDate)}',
                         style: TextStyle(
-                          color: lot.expirationDate != null && 
-                                 lot.expirationDate!.isBefore(DateTime.now())
+                          color:
+                              lot.expirationDate != null &&
+                                  lot.expirationDate!.isBefore(DateTime.now())
                               ? Colors.red
                               : Colors.grey[600],
                         ),
@@ -206,10 +209,7 @@ class _EditLotDialog extends StatefulWidget {
   final Lot lot;
   final Function(Lot) onSave;
 
-  const _EditLotDialog({
-    required this.lot,
-    required this.onSave,
-  });
+  const _EditLotDialog({required this.lot, required this.onSave});
 
   @override
   _EditLotDialogState createState() => _EditLotDialogState();
@@ -280,13 +280,13 @@ class _EditLotDialogState extends State<_EditLotDialog> {
                     child: Text(
                       _formatDate(_selectedExpirationDate),
                       style: TextStyle(
-                        color: _selectedExpirationDate == null 
-                            ? Colors.grey 
+                        color: _selectedExpirationDate == null
+                            ? Colors.grey
                             : null,
                       ),
                     ),
                   ),
-                  if (_selectedExpirationDate != null) 
+                  if (_selectedExpirationDate != null)
                     IconButton(
                       icon: const Icon(Icons.clear, size: 18),
                       onPressed: () {

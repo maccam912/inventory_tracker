@@ -13,7 +13,8 @@ void main() {
 
     setUp(() async {
       // Create an in-memory database for testing
-      database = AppDatabase()..executor = DatabaseExecutor(NativeDatabase.memory());
+      database = AppDatabase()
+        ..executor = DatabaseExecutor(NativeDatabase.memory());
     });
 
     tearDown(() async {
@@ -22,7 +23,7 @@ void main() {
 
     test('should create lot with expiration date', () async {
       final expirationDate = DateTime(2025, 12, 31);
-      
+
       // Insert a lot with expiration date
       final lotId = await database.insertLot(
         LotsCompanion.insert(
@@ -41,9 +42,7 @@ void main() {
     test('should create lot without expiration date', () async {
       // Insert a lot without expiration date
       final lotId = await database.insertLot(
-        LotsCompanion.insert(
-          lotNumber: 'TEST-002',
-        ),
+        LotsCompanion.insert(lotNumber: 'TEST-002'),
       );
 
       // Retrieve the lot
@@ -56,9 +55,7 @@ void main() {
     test('should update lot expiration date', () async {
       // Insert a lot without expiration date
       final lotId = await database.insertLot(
-        LotsCompanion.insert(
-          lotNumber: 'TEST-003',
-        ),
+        LotsCompanion.insert(lotNumber: 'TEST-003'),
       );
 
       // Get the original lot
@@ -70,7 +67,7 @@ void main() {
       final updatedLot = originalLot.copyWith(
         expirationDate: Value(expirationDate),
       );
-      
+
       await database.updateLot(updatedLot);
 
       // Retrieve the updated lot
@@ -80,7 +77,7 @@ void main() {
 
     test('should clear lot expiration date', () async {
       final expirationDate = DateTime(2025, 12, 31);
-      
+
       // Insert a lot with expiration date
       final lotId = await database.insertLot(
         LotsCompanion.insert(
@@ -97,7 +94,7 @@ void main() {
       final updatedLot = originalLot.copyWith(
         expirationDate: const Value(null),
       );
-      
+
       await database.updateLot(updatedLot);
 
       // Retrieve the updated lot
@@ -109,9 +106,9 @@ void main() {
       // This test verifies that the migration strategy handles the schema upgrade
       // In a real migration test, we would create a database with version 1,
       // then upgrade to version 2 and verify the column exists
-      
+
       expect(database.schemaVersion, equals(2));
-      
+
       // Verify that we can insert a lot with expiration date after migration
       final lotId = await database.insertLot(
         LotsCompanion.insert(
