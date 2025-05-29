@@ -2,6 +2,31 @@
 
 A Flutter-based inventory management application that helps you track inventory across different sites and lots.
 
+## Screenshots
+
+Here are the main screens of the Inventory Tracker application:
+
+### Sites Management
+Manage your site locations where inventory is stored.
+
+| Empty State | With Data |
+|-------------|-----------|
+| ![Sites Screen Empty](screenshots/01_sites_screen.svg) | ![Sites Screen With Data](screenshots/02_sites_with_data.svg) |
+
+### Lots Management
+Create and manage inventory lot numbers for organizing inventory batches.
+
+| Empty State | With Data |
+|-------------|-----------|
+| ![Lots Screen Empty](screenshots/03_lots_screen.svg) | ![Lots Screen With Data](screenshots/04_lots_with_data.svg) |
+
+### Inventory Tracking
+Record and track inventory counts for specific site and lot combinations.
+
+| Empty State | With Data |
+|-------------|-----------|
+| ![Inventory Screen Empty](screenshots/05_inventory_screen.svg) | ![Inventory Screen With Data](screenshots/06_inventory_with_data.svg) |
+
 ## Features
 
 - **Site Management**: Create, edit, and delete site locations

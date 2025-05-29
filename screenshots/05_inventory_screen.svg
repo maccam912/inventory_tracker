@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="800" fill="#ffffff"/>
+  
+  <!-- App Bar -->
+  <rect width="400" height="60" fill="#2196F3"/>
+  <text x="20" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white">Inventory Tracker</text>
+  
+  <!-- Title -->
+  <text x="20" y="110" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#333">Inventory Tracking</text>
+  
+  <!-- Content -->
+  <text x="20" y="140" font-family="Arial, sans-serif" font-size="14" fill="#666">Record inventory counts for site/lot combinations.</text>
+  <text x="20" y="190" font-family="Arial, sans-serif" font-size="14" fill="#666">Site: [Select a site]</text>
+  <text x="20" y="215" font-family="Arial, sans-serif" font-size="14" fill="#666">Lot: [Select a lot]</text>
+  <text x="20" y="240" font-family="Arial, sans-serif" font-size="14" fill="#666">Count: [Enter count...]</text>
+  <text x="20" y="265" font-family="Arial, sans-serif" font-size="14" fill="#666">    [Add Inventory]</text>
+  <text x="20" y="315" font-family="Arial, sans-serif" font-size="14" fill="#666">Inventory Records:</text>
+  <text x="20" y="340" font-family="Arial, sans-serif" font-size="14" fill="#666">• No inventory data added yet</text>
+  <text x="20" y="390" font-family="Arial, sans-serif" font-size="14" fill="#666">Track inventory levels across sites and lots.</text>
+
+  <!-- Bottom Navigation -->
+  <rect y="730" width="400" height="70" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="60" y="770" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#999">Sites</text>
+  <text x="190" y="770" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#999">Lots</text>
+  <text x="320" y="770" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#2196F3">Inventory</text>
+</svg>
