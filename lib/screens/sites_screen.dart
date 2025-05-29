@@ -18,10 +18,11 @@ class _SitesScreenState extends State<SitesScreen> {
     _siteNameController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final database = DatabaseProvider.of(context);
-    
+
     return Scaffold(
       body: Column(
         children: [
@@ -72,17 +73,17 @@ class _SitesScreenState extends State<SitesScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                
+
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                
+
                 final sites = snapshot.data ?? [];
-                
+
                 if (sites.isEmpty) {
                   return const Center(child: Text('No sites added yet'));
                 }
-                
+
                 return ListView.builder(
                   itemCount: sites.length,
                   itemBuilder: (context, index) {
@@ -101,7 +102,9 @@ class _SitesScreenState extends State<SitesScreen> {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            final editController = TextEditingController(text: site.siteName);
+                            final editController = TextEditingController(
+                              text: site.siteName,
+                            );
                             return AlertDialog(
                               title: const Text('Edit Site'),
                               content: TextField(
@@ -119,7 +122,9 @@ class _SitesScreenState extends State<SitesScreen> {
                                   onPressed: () async {
                                     if (editController.text.isNotEmpty) {
                                       await database.updateSite(
-                                        site.copyWith(siteName: editController.text),
+                                        site.copyWith(
+                                          siteName: editController.text,
+                                        ),
                                       );
                                       Navigator.pop(context);
                                       setState(() {});

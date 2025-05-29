@@ -5,15 +5,10 @@ import 'screens/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   final database = AppDatabase();
-  
-  runApp(
-    DatabaseProvider(
-      database: database,
-      child: const MyApp(),
-    ),
-  );
+
+  runApp(DatabaseProvider(database: database, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
