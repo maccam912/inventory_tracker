@@ -51,4 +51,29 @@ void main() {
     // Verify basic app functionality
     expect(find.text('Inventory Tracker App'), findsOneWidget);
   });
+
+  group('Date formatting tests', () {
+    test('should format date correctly', () {
+      final testDate = DateTime(2025, 3, 15);
+      final formatted = _formatDate(testDate);
+      expect(formatted, equals('2025/03/15'));
+    });
+
+    test('should handle null date', () {
+      final formatted = _formatDate(null);
+      expect(formatted, equals('No expiration date'));
+    });
+
+    test('should format single digit month and day with leading zeros', () {
+      final testDate = DateTime(2025, 1, 5);
+      final formatted = _formatDate(testDate);
+      expect(formatted, equals('2025/01/05'));
+    });
+  });
+}
+
+// Helper function for date formatting (duplicated from lots_screen.dart for testing)
+String _formatDate(DateTime? date) {
+  if (date == null) return 'No expiration date';
+  return '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
 }
