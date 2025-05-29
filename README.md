@@ -42,7 +42,38 @@ The app uses the following data model:
 1. Clone this repository
 2. Run `flutter pub get` to install dependencies
 3. Run `flutter pub run build_runner build` to generate Drift database code
-4. Run `flutter run` to start the application
+4. **Set up pre-commit hooks** (recommended):
+   ```bash
+   pip3 install pre-commit
+   pre-commit install
+   ```
+5. Run `flutter run` to start the application
+
+## Development
+
+### Pre-commit Hooks
+
+This project uses pre-commit hooks to ensure code quality and consistency. The hooks run the same checks as our GitHub Actions CI:
+
+- **dart format**: Ensures code is properly formatted
+- **flutter analyze**: Runs static analysis to catch potential issues
+- **flutter test**: Runs all tests to ensure nothing is broken
+
+To install pre-commit hooks:
+```bash
+pip3 install pre-commit
+pre-commit install
+```
+
+To run hooks manually on all files:
+```bash
+pre-commit run --all-files
+```
+
+To skip pre-commit hooks for a specific commit (use sparingly):
+```bash
+git commit --no-verify -m "commit message"
+```
 
 ## Usage
 
