@@ -1,0 +1,75 @@
+# Pre-commit configuration for Flutter/Dart project
+# Replicates the checks from GitHub Actions workflows
+#
+# This ensures that all commits pass the same checks that are run in CI:
+# 1. dart format --output=none --set-exit-if-changed .
+# 2. flutter analyze  
+# 3. flutter test --no-pub
+#
+# To install: pre-commit install
+# To run manually: pre-commit run --all-files
+
+repos:
+  # Flutter/Dart checks - matches GitHub Actions workflows exactly
+  - repo: local
+    hooks:
+      # Code formatting check - matches: dart format --output=none --set-exit-if-changed .
+      - id: dart-format
+        name: dart format
+        description: Formats Dart code and fails if changes are needed
+        entry: dart format --output=none --set-exit-if-changed .
+        language: system
+        files: '\.dart$'
+        pass_filenames: false
+        always_run: true
+
+      # Static analysis - matches: flutter analyze
+      - id: flutter-analyze
+        name: flutter analyze
+        description: Analyzes Dart/Flutter code for issues
+        entry: flutter analyze
+        language: system
+        files: '\.dart$'
+        pass_filenames: false
+        always_run: true
+
+      # Run all tests - matches: flutter test --no-pub
+      - id: flutter-test
+        name: flutter test
+        description: Runs all Flutter tests
+        entry: flutter test --no-pub
+        language: system
+        files: '\.dart$'
+        pass_filenames: false
+        always_run: true
+
+  # General file hygiene checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.md$'
+      - id: end-of-file-fixer
+        exclude: '\.md$'
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      - id: check-case-conflict
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.md$'
+      - id: end-of-file-fixer
+        exclude: '\.md$'
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ['--fix=lf']
