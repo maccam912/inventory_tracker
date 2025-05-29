@@ -3,13 +3,13 @@ import '../database/database.dart';
 import '../database/database_provider.dart';
 
 class SitesScreen extends StatefulWidget {
-  const SitesScreen({Key? key}) : super(key: key);
+  const SitesScreen({super.key});
 
   @override
-  _SitesScreenState createState() => _SitesScreenState();
+  SitesScreenState createState() => SitesScreenState();
 }
 
-class _SitesScreenState extends State<SitesScreen> {
+class SitesScreenState extends State<SitesScreen> {
   final _formKey = GlobalKey<FormState>();
   final _siteNameController = TextEditingController();
 
@@ -126,7 +126,9 @@ class _SitesScreenState extends State<SitesScreen> {
                                           siteName: editController.text,
                                         ),
                                       );
-                                      Navigator.pop(context);
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
                                       setState(() {});
                                     }
                                   },

@@ -47,6 +47,7 @@ class AppDatabase extends _$AppDatabase {
   }
 
   // Close the database
+  @override
   Future<void> close() => executor.close();
 
   // Site operations

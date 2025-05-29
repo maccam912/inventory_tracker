@@ -3,13 +3,13 @@ import '../database/database.dart';
 import '../database/database_provider.dart';
 
 class InventoryScreen extends StatefulWidget {
-  const InventoryScreen({Key? key}) : super(key: key);
+  const InventoryScreen({super.key});
 
   @override
-  _InventoryScreenState createState() => _InventoryScreenState();
+  InventoryScreenState createState() => InventoryScreenState();
 }
 
-class _InventoryScreenState extends State<InventoryScreen> {
+class InventoryScreenState extends State<InventoryScreen> {
   final _formKey = GlobalKey<FormState>();
   int? _selectedSiteId;
   int? _selectedLotId;
