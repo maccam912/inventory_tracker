@@ -3,7 +3,7 @@
 #
 # This ensures that all commits pass the same checks that are run in CI:
 # 1. dart format --output=none --set-exit-if-changed .
-# 2. flutter analyze  
+# 2. flutter analyze
 # 3. flutter test --no-pub
 #
 # To install: pre-commit install
@@ -45,7 +45,7 @@ repos:
 
   # General file hygiene checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         exclude: '\.md$'
@@ -58,18 +58,3 @@ repos:
       - id: mixed-line-ending
         args: ['--fix=lf']
       - id: check-case-conflict
-
-  # General file checks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
-    hooks:
-      - id: trailing-whitespace
-        exclude: '\.md$'
-      - id: end-of-file-fixer
-        exclude: '\.md$'
-      - id: check-yaml
-      - id: check-added-large-files
-        args: ['--maxkb=1000']
-      - id: check-merge-conflict
-      - id: mixed-line-ending
-        args: ['--fix=lf']
