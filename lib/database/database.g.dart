@@ -11,31 +11,21 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _siteNameMeta = const VerificationMeta(
-    'siteName',
-  );
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _siteNameMeta =
+      const VerificationMeta('siteName');
   @override
   late final GeneratedColumn<String> siteName = GeneratedColumn<String>(
-    'site_name',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 100,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
+      'site_name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, siteName];
   @override
@@ -44,20 +34,16 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
   String get actualTableName => $name;
   static const String $name = 'sites';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Site> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<Site> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('site_name')) {
-      context.handle(
-        _siteNameMeta,
-        siteName.isAcceptableOrUnknown(data['site_name']!, _siteNameMeta),
-      );
+      context.handle(_siteNameMeta,
+          siteName.isAcceptableOrUnknown(data['site_name']!, _siteNameMeta));
     } else if (isInserting) {
       context.missing(_siteNameMeta);
     }
@@ -70,14 +56,10 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
   Site map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Site(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      siteName: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}site_name'],
-      )!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      siteName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}site_name'])!,
     );
   }
 
@@ -100,13 +82,14 @@ class Site extends DataClass implements Insertable<Site> {
   }
 
   SitesCompanion toCompanion(bool nullToAbsent) {
-    return SitesCompanion(id: Value(id), siteName: Value(siteName));
+    return SitesCompanion(
+      id: Value(id),
+      siteName: Value(siteName),
+    );
   }
 
-  factory Site.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory Site.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Site(
       id: serializer.fromJson<int>(json['id']),
@@ -122,8 +105,10 @@ class Site extends DataClass implements Insertable<Site> {
     };
   }
 
-  Site copyWith({int? id, String? siteName}) =>
-      Site(id: id ?? this.id, siteName: siteName ?? this.siteName);
+  Site copyWith({int? id, String? siteName}) => Site(
+        id: id ?? this.id,
+        siteName: siteName ?? this.siteName,
+      );
   Site copyWithCompanion(SitesCompanion data) {
     return Site(
       id: data.id.present ? data.id.value : this.id,
@@ -206,31 +191,21 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _lotNumberMeta = const VerificationMeta(
-    'lotNumber',
-  );
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _lotNumberMeta =
+      const VerificationMeta('lotNumber');
   @override
   late final GeneratedColumn<String> lotNumber = GeneratedColumn<String>(
-    'lot_number',
-    aliasedName,
-    false,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 50,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
+      'lot_number', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 50),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, lotNumber];
   @override
@@ -239,20 +214,16 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
   String get actualTableName => $name;
   static const String $name = 'lots';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Lot> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<Lot> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('lot_number')) {
-      context.handle(
-        _lotNumberMeta,
-        lotNumber.isAcceptableOrUnknown(data['lot_number']!, _lotNumberMeta),
-      );
+      context.handle(_lotNumberMeta,
+          lotNumber.isAcceptableOrUnknown(data['lot_number']!, _lotNumberMeta));
     } else if (isInserting) {
       context.missing(_lotNumberMeta);
     }
@@ -265,14 +236,10 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
   Lot map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Lot(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      lotNumber: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}lot_number'],
-      )!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      lotNumber: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}lot_number'])!,
     );
   }
 
@@ -295,13 +262,14 @@ class Lot extends DataClass implements Insertable<Lot> {
   }
 
   LotsCompanion toCompanion(bool nullToAbsent) {
-    return LotsCompanion(id: Value(id), lotNumber: Value(lotNumber));
+    return LotsCompanion(
+      id: Value(id),
+      lotNumber: Value(lotNumber),
+    );
   }
 
-  factory Lot.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory Lot.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Lot(
       id: serializer.fromJson<int>(json['id']),
@@ -317,8 +285,10 @@ class Lot extends DataClass implements Insertable<Lot> {
     };
   }
 
-  Lot copyWith({int? id, String? lotNumber}) =>
-      Lot(id: id ?? this.id, lotNumber: lotNumber ?? this.lotNumber);
+  Lot copyWith({int? id, String? lotNumber}) => Lot(
+        id: id ?? this.id,
+        lotNumber: lotNumber ?? this.lotNumber,
+      );
   Lot copyWithCompanion(LotsCompanion data) {
     return Lot(
       id: data.id.present ? data.id.value : this.id,
@@ -404,61 +374,41 @@ class $InventorySnapshotsTable extends InventorySnapshots
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
   @override
   late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
-    'site_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES sites (id)',
-    ),
-  );
+      'site_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES sites (id)'));
   static const VerificationMeta _lotIdMeta = const VerificationMeta('lotId');
   @override
   late final GeneratedColumn<int> lotId = GeneratedColumn<int>(
-    'lot_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES lots (id)',
-    ),
-  );
+      'lot_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES lots (id)'));
   static const VerificationMeta _countMeta = const VerificationMeta('count');
   @override
   late final GeneratedColumn<int> count = GeneratedColumn<int>(
-    'count',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _timestampMeta = const VerificationMeta(
-    'timestamp',
-  );
+      'count', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _timestampMeta =
+      const VerificationMeta('timestamp');
   @override
   late final GeneratedColumn<DateTime> timestamp = GeneratedColumn<DateTime>(
-    'timestamp',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: Constant(DateTime.now()),
-  );
+      'timestamp', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: Constant(DateTime.now()));
   @override
   List<GeneratedColumn> get $columns => [id, siteId, lotId, count, timestamp];
   @override
@@ -467,44 +417,34 @@ class $InventorySnapshotsTable extends InventorySnapshots
   String get actualTableName => $name;
   static const String $name = 'inventory_snapshots';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<InventorySnapshot> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<InventorySnapshot> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('site_id')) {
-      context.handle(
-        _siteIdMeta,
-        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
-      );
+      context.handle(_siteIdMeta,
+          siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta));
     } else if (isInserting) {
       context.missing(_siteIdMeta);
     }
     if (data.containsKey('lot_id')) {
       context.handle(
-        _lotIdMeta,
-        lotId.isAcceptableOrUnknown(data['lot_id']!, _lotIdMeta),
-      );
+          _lotIdMeta, lotId.isAcceptableOrUnknown(data['lot_id']!, _lotIdMeta));
     } else if (isInserting) {
       context.missing(_lotIdMeta);
     }
     if (data.containsKey('count')) {
       context.handle(
-        _countMeta,
-        count.isAcceptableOrUnknown(data['count']!, _countMeta),
-      );
+          _countMeta, count.isAcceptableOrUnknown(data['count']!, _countMeta));
     } else if (isInserting) {
       context.missing(_countMeta);
     }
     if (data.containsKey('timestamp')) {
-      context.handle(
-        _timestampMeta,
-        timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
-      );
+      context.handle(_timestampMeta,
+          timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta));
     }
     return context;
   }
@@ -515,26 +455,16 @@ class $InventorySnapshotsTable extends InventorySnapshots
   InventorySnapshot map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return InventorySnapshot(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      siteId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}site_id'],
-      )!,
-      lotId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}lot_id'],
-      )!,
-      count: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}count'],
-      )!,
-      timestamp: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}timestamp'],
-      )!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      siteId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}site_id'])!,
+      lotId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}lot_id'])!,
+      count: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}count'])!,
+      timestamp: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}timestamp'])!,
     );
   }
 
@@ -551,13 +481,12 @@ class InventorySnapshot extends DataClass
   final int lotId;
   final int count;
   final DateTime timestamp;
-  const InventorySnapshot({
-    required this.id,
-    required this.siteId,
-    required this.lotId,
-    required this.count,
-    required this.timestamp,
-  });
+  const InventorySnapshot(
+      {required this.id,
+      required this.siteId,
+      required this.lotId,
+      required this.count,
+      required this.timestamp});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -579,10 +508,8 @@ class InventorySnapshot extends DataClass
     );
   }
 
-  factory InventorySnapshot.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory InventorySnapshot.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return InventorySnapshot(
       id: serializer.fromJson<int>(json['id']),
@@ -604,19 +531,19 @@ class InventorySnapshot extends DataClass
     };
   }
 
-  InventorySnapshot copyWith({
-    int? id,
-    int? siteId,
-    int? lotId,
-    int? count,
-    DateTime? timestamp,
-  }) => InventorySnapshot(
-    id: id ?? this.id,
-    siteId: siteId ?? this.siteId,
-    lotId: lotId ?? this.lotId,
-    count: count ?? this.count,
-    timestamp: timestamp ?? this.timestamp,
-  );
+  InventorySnapshot copyWith(
+          {int? id,
+          int? siteId,
+          int? lotId,
+          int? count,
+          DateTime? timestamp}) =>
+      InventorySnapshot(
+        id: id ?? this.id,
+        siteId: siteId ?? this.siteId,
+        lotId: lotId ?? this.lotId,
+        count: count ?? this.count,
+        timestamp: timestamp ?? this.timestamp,
+      );
   InventorySnapshot copyWithCompanion(InventorySnapshotsCompanion data) {
     return InventorySnapshot(
       id: data.id.present ? data.id.value : this.id,
@@ -671,9 +598,9 @@ class InventorySnapshotsCompanion extends UpdateCompanion<InventorySnapshot> {
     required int lotId,
     required int count,
     this.timestamp = const Value.absent(),
-  }) : siteId = Value(siteId),
-       lotId = Value(lotId),
-       count = Value(count);
+  })  : siteId = Value(siteId),
+        lotId = Value(lotId),
+        count = Value(count);
   static Insertable<InventorySnapshot> custom({
     Expression<int>? id,
     Expression<int>? siteId,
@@ -690,13 +617,12 @@ class InventorySnapshotsCompanion extends UpdateCompanion<InventorySnapshot> {
     });
   }
 
-  InventorySnapshotsCompanion copyWith({
-    Value<int>? id,
-    Value<int>? siteId,
-    Value<int>? lotId,
-    Value<int>? count,
-    Value<DateTime>? timestamp,
-  }) {
+  InventorySnapshotsCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? siteId,
+      Value<int>? lotId,
+      Value<int>? count,
+      Value<DateTime>? timestamp}) {
     return InventorySnapshotsCompanion(
       id: id ?? this.id,
       siteId: siteId ?? this.siteId,
@@ -751,44 +677,38 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [
-    sites,
-    lots,
-    inventorySnapshots,
-  ];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [sites, lots, inventorySnapshots];
 }
 
-typedef $$SitesTableCreateCompanionBuilder =
-    SitesCompanion Function({Value<int> id, required String siteName});
-typedef $$SitesTableUpdateCompanionBuilder =
-    SitesCompanion Function({Value<int> id, Value<String> siteName});
+typedef $$SitesTableCreateCompanionBuilder = SitesCompanion Function({
+  Value<int> id,
+  required String siteName,
+});
+typedef $$SitesTableUpdateCompanionBuilder = SitesCompanion Function({
+  Value<int> id,
+  Value<String> siteName,
+});
 
 final class $$SitesTableReferences
     extends BaseReferences<_$AppDatabase, $SitesTable, Site> {
   $$SitesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$InventorySnapshotsTable, List<InventorySnapshot>>
-  _inventorySnapshotsRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.inventorySnapshots,
-        aliasName: $_aliasNameGenerator(
-          db.sites.id,
-          db.inventorySnapshots.siteId,
-        ),
-      );
+      _inventorySnapshotsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.inventorySnapshots,
+              aliasName: $_aliasNameGenerator(
+                  db.sites.id, db.inventorySnapshots.siteId));
 
   $$InventorySnapshotsTableProcessedTableManager get inventorySnapshotsRefs {
-    final manager = $$InventorySnapshotsTableTableManager(
-      $_db,
-      $_db.inventorySnapshots,
-    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+    final manager =
+        $$InventorySnapshotsTableTableManager($_db, $_db.inventorySnapshots)
+            .filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(
-      _inventorySnapshotsRefsTable($_db),
-    );
+    final cache =
+        $_typedResult.readTableOrNull(_inventorySnapshotsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
@@ -801,37 +721,29 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get siteName => $composableBuilder(
-    column: $table.siteName,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.siteName, builder: (column) => ColumnFilters(column));
 
   Expression<bool> inventorySnapshotsRefs(
-    Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f,
-  ) {
+      Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f) {
     final $$InventorySnapshotsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.inventorySnapshots,
-      getReferencedColumn: (t) => t.siteId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$InventorySnapshotsTableFilterComposer(
-            $db: $db,
-            $table: $db.inventorySnapshots,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.inventorySnapshots,
+        getReferencedColumn: (t) => t.siteId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$InventorySnapshotsTableFilterComposer(
+              $db: $db,
+              $table: $db.inventorySnapshots,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -846,14 +758,10 @@ class $$SitesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get siteName => $composableBuilder(
-    column: $table.siteName,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.siteName, builder: (column) => ColumnOrderings(column));
 }
 
 class $$SitesTableAnnotationComposer
@@ -872,50 +780,42 @@ class $$SitesTableAnnotationComposer
       $composableBuilder(column: $table.siteName, builder: (column) => column);
 
   Expression<T> inventorySnapshotsRefs<T extends Object>(
-    Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f) {
     final $$InventorySnapshotsTableAnnotationComposer composer =
         $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.inventorySnapshots,
-          getReferencedColumn: (t) => t.siteId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$InventorySnapshotsTableAnnotationComposer(
-                $db: $db,
-                $table: $db.inventorySnapshots,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.inventorySnapshots,
+            getReferencedColumn: (t) => t.siteId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$InventorySnapshotsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.inventorySnapshots,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
 
-class $$SitesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $SitesTable,
-          Site,
-          $$SitesTableFilterComposer,
-          $$SitesTableOrderingComposer,
-          $$SitesTableAnnotationComposer,
-          $$SitesTableCreateCompanionBuilder,
-          $$SitesTableUpdateCompanionBuilder,
-          (Site, $$SitesTableReferences),
-          Site,
-          PrefetchHooks Function({bool inventorySnapshotsRefs})
-        > {
+class $$SitesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $SitesTable,
+    Site,
+    $$SitesTableFilterComposer,
+    $$SitesTableOrderingComposer,
+    $$SitesTableAnnotationComposer,
+    $$SitesTableCreateCompanionBuilder,
+    $$SitesTableUpdateCompanionBuilder,
+    (Site, $$SitesTableReferences),
+    Site,
+    PrefetchHooks Function({bool inventorySnapshotsRefs})> {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -924,102 +824,95 @@ class $$SitesTableTableManager
               $$SitesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$SitesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> siteName = const Value.absent(),
-              }) => SitesCompanion(id: id, siteName: siteName),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String siteName,
-              }) => SitesCompanion.insert(id: id, siteName: siteName),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> siteName = const Value.absent(),
+          }) =>
+              SitesCompanion(
+            id: id,
+            siteName: siteName,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String siteName,
+          }) =>
+              SitesCompanion.insert(
+            id: id,
+            siteName: siteName,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$SitesTableReferences(db, table, e)),
-              )
+              .map((e) =>
+                  (e.readTable(table), $$SitesTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({inventorySnapshotsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (inventorySnapshotsRefs) db.inventorySnapshots,
+                if (inventorySnapshotsRefs) db.inventorySnapshots
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (inventorySnapshotsRefs)
-                    await $_getPrefetchedData<
-                      Site,
-                      $SitesTable,
-                      InventorySnapshot
-                    >(
-                      currentTable: table,
-                      referencedTable: $$SitesTableReferences
-                          ._inventorySnapshotsRefsTable(db),
-                      managerFromTypedResult: (p0) => $$SitesTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).inventorySnapshotsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.siteId == item.id),
-                      typedResults: items,
-                    ),
+                    await $_getPrefetchedData<Site, $SitesTable,
+                            InventorySnapshot>(
+                        currentTable: table,
+                        referencedTable: $$SitesTableReferences
+                            ._inventorySnapshotsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$SitesTableReferences(db, table, p0)
+                                .inventorySnapshotsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.siteId == item.id),
+                        typedResults: items)
                 ];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $$SitesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $SitesTable,
-      Site,
-      $$SitesTableFilterComposer,
-      $$SitesTableOrderingComposer,
-      $$SitesTableAnnotationComposer,
-      $$SitesTableCreateCompanionBuilder,
-      $$SitesTableUpdateCompanionBuilder,
-      (Site, $$SitesTableReferences),
-      Site,
-      PrefetchHooks Function({bool inventorySnapshotsRefs})
-    >;
-typedef $$LotsTableCreateCompanionBuilder =
-    LotsCompanion Function({Value<int> id, required String lotNumber});
-typedef $$LotsTableUpdateCompanionBuilder =
-    LotsCompanion Function({Value<int> id, Value<String> lotNumber});
+typedef $$SitesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $SitesTable,
+    Site,
+    $$SitesTableFilterComposer,
+    $$SitesTableOrderingComposer,
+    $$SitesTableAnnotationComposer,
+    $$SitesTableCreateCompanionBuilder,
+    $$SitesTableUpdateCompanionBuilder,
+    (Site, $$SitesTableReferences),
+    Site,
+    PrefetchHooks Function({bool inventorySnapshotsRefs})>;
+typedef $$LotsTableCreateCompanionBuilder = LotsCompanion Function({
+  Value<int> id,
+  required String lotNumber,
+});
+typedef $$LotsTableUpdateCompanionBuilder = LotsCompanion Function({
+  Value<int> id,
+  Value<String> lotNumber,
+});
 
 final class $$LotsTableReferences
     extends BaseReferences<_$AppDatabase, $LotsTable, Lot> {
   $$LotsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$InventorySnapshotsTable, List<InventorySnapshot>>
-  _inventorySnapshotsRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.inventorySnapshots,
-        aliasName: $_aliasNameGenerator(
-          db.lots.id,
-          db.inventorySnapshots.lotId,
-        ),
-      );
+      _inventorySnapshotsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.inventorySnapshots,
+              aliasName: $_aliasNameGenerator(
+                  db.lots.id, db.inventorySnapshots.lotId));
 
   $$InventorySnapshotsTableProcessedTableManager get inventorySnapshotsRefs {
-    final manager = $$InventorySnapshotsTableTableManager(
-      $_db,
-      $_db.inventorySnapshots,
-    ).filter((f) => f.lotId.id.sqlEquals($_itemColumn<int>('id')!));
+    final manager =
+        $$InventorySnapshotsTableTableManager($_db, $_db.inventorySnapshots)
+            .filter((f) => f.lotId.id.sqlEquals($_itemColumn<int>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(
-      _inventorySnapshotsRefsTable($_db),
-    );
+    final cache =
+        $_typedResult.readTableOrNull(_inventorySnapshotsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
@@ -1032,37 +925,29 @@ class $$LotsTableFilterComposer extends Composer<_$AppDatabase, $LotsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get lotNumber => $composableBuilder(
-    column: $table.lotNumber,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.lotNumber, builder: (column) => ColumnFilters(column));
 
   Expression<bool> inventorySnapshotsRefs(
-    Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f,
-  ) {
+      Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f) {
     final $$InventorySnapshotsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.inventorySnapshots,
-      getReferencedColumn: (t) => t.lotId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$InventorySnapshotsTableFilterComposer(
-            $db: $db,
-            $table: $db.inventorySnapshots,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.inventorySnapshots,
+        getReferencedColumn: (t) => t.lotId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$InventorySnapshotsTableFilterComposer(
+              $db: $db,
+              $table: $db.inventorySnapshots,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -1076,14 +961,10 @@ class $$LotsTableOrderingComposer extends Composer<_$AppDatabase, $LotsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get lotNumber => $composableBuilder(
-    column: $table.lotNumber,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.lotNumber, builder: (column) => ColumnOrderings(column));
 }
 
 class $$LotsTableAnnotationComposer
@@ -1102,50 +983,42 @@ class $$LotsTableAnnotationComposer
       $composableBuilder(column: $table.lotNumber, builder: (column) => column);
 
   Expression<T> inventorySnapshotsRefs<T extends Object>(
-    Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f) {
     final $$InventorySnapshotsTableAnnotationComposer composer =
         $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.inventorySnapshots,
-          getReferencedColumn: (t) => t.lotId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$InventorySnapshotsTableAnnotationComposer(
-                $db: $db,
-                $table: $db.inventorySnapshots,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.inventorySnapshots,
+            getReferencedColumn: (t) => t.lotId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$InventorySnapshotsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.inventorySnapshots,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
 
-class $$LotsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $LotsTable,
-          Lot,
-          $$LotsTableFilterComposer,
-          $$LotsTableOrderingComposer,
-          $$LotsTableAnnotationComposer,
-          $$LotsTableCreateCompanionBuilder,
-          $$LotsTableUpdateCompanionBuilder,
-          (Lot, $$LotsTableReferences),
-          Lot,
-          PrefetchHooks Function({bool inventorySnapshotsRefs})
-        > {
+class $$LotsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $LotsTable,
+    Lot,
+    $$LotsTableFilterComposer,
+    $$LotsTableOrderingComposer,
+    $$LotsTableAnnotationComposer,
+    $$LotsTableCreateCompanionBuilder,
+    $$LotsTableUpdateCompanionBuilder,
+    (Lot, $$LotsTableReferences),
+    Lot,
+    PrefetchHooks Function({bool inventorySnapshotsRefs})> {
   $$LotsTableTableManager(_$AppDatabase db, $LotsTable table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1154,135 +1027,115 @@ class $$LotsTableTableManager
               $$LotsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$LotsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> lotNumber = const Value.absent(),
-              }) => LotsCompanion(id: id, lotNumber: lotNumber),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String lotNumber,
-              }) => LotsCompanion.insert(id: id, lotNumber: lotNumber),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> lotNumber = const Value.absent(),
+          }) =>
+              LotsCompanion(
+            id: id,
+            lotNumber: lotNumber,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String lotNumber,
+          }) =>
+              LotsCompanion.insert(
+            id: id,
+            lotNumber: lotNumber,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$LotsTableReferences(db, table, e)),
-              )
+              .map((e) =>
+                  (e.readTable(table), $$LotsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({inventorySnapshotsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (inventorySnapshotsRefs) db.inventorySnapshots,
+                if (inventorySnapshotsRefs) db.inventorySnapshots
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (inventorySnapshotsRefs)
-                    await $_getPrefetchedData<
-                      Lot,
-                      $LotsTable,
-                      InventorySnapshot
-                    >(
-                      currentTable: table,
-                      referencedTable: $$LotsTableReferences
-                          ._inventorySnapshotsRefsTable(db),
-                      managerFromTypedResult: (p0) => $$LotsTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).inventorySnapshotsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.lotId == item.id),
-                      typedResults: items,
-                    ),
+                    await $_getPrefetchedData<Lot, $LotsTable,
+                            InventorySnapshot>(
+                        currentTable: table,
+                        referencedTable: $$LotsTableReferences
+                            ._inventorySnapshotsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$LotsTableReferences(db, table, p0)
+                                .inventorySnapshotsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.lotId == item.id),
+                        typedResults: items)
                 ];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $$LotsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $LotsTable,
-      Lot,
-      $$LotsTableFilterComposer,
-      $$LotsTableOrderingComposer,
-      $$LotsTableAnnotationComposer,
-      $$LotsTableCreateCompanionBuilder,
-      $$LotsTableUpdateCompanionBuilder,
-      (Lot, $$LotsTableReferences),
-      Lot,
-      PrefetchHooks Function({bool inventorySnapshotsRefs})
-    >;
-typedef $$InventorySnapshotsTableCreateCompanionBuilder =
-    InventorySnapshotsCompanion Function({
-      Value<int> id,
-      required int siteId,
-      required int lotId,
-      required int count,
-      Value<DateTime> timestamp,
-    });
-typedef $$InventorySnapshotsTableUpdateCompanionBuilder =
-    InventorySnapshotsCompanion Function({
-      Value<int> id,
-      Value<int> siteId,
-      Value<int> lotId,
-      Value<int> count,
-      Value<DateTime> timestamp,
-    });
+typedef $$LotsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $LotsTable,
+    Lot,
+    $$LotsTableFilterComposer,
+    $$LotsTableOrderingComposer,
+    $$LotsTableAnnotationComposer,
+    $$LotsTableCreateCompanionBuilder,
+    $$LotsTableUpdateCompanionBuilder,
+    (Lot, $$LotsTableReferences),
+    Lot,
+    PrefetchHooks Function({bool inventorySnapshotsRefs})>;
+typedef $$InventorySnapshotsTableCreateCompanionBuilder
+    = InventorySnapshotsCompanion Function({
+  Value<int> id,
+  required int siteId,
+  required int lotId,
+  required int count,
+  Value<DateTime> timestamp,
+});
+typedef $$InventorySnapshotsTableUpdateCompanionBuilder
+    = InventorySnapshotsCompanion Function({
+  Value<int> id,
+  Value<int> siteId,
+  Value<int> lotId,
+  Value<int> count,
+  Value<DateTime> timestamp,
+});
 
-final class $$InventorySnapshotsTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $InventorySnapshotsTable,
-          InventorySnapshot
-        > {
+final class $$InventorySnapshotsTableReferences extends BaseReferences<
+    _$AppDatabase, $InventorySnapshotsTable, InventorySnapshot> {
   $$InventorySnapshotsTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
+      super.$_db, super.$_table, super.$_typedResult);
 
   static $SitesTable _siteIdTable(_$AppDatabase db) => db.sites.createAlias(
-    $_aliasNameGenerator(db.inventorySnapshots.siteId, db.sites.id),
-  );
+      $_aliasNameGenerator(db.inventorySnapshots.siteId, db.sites.id));
 
   $$SitesTableProcessedTableManager get siteId {
     final $_column = $_itemColumn<int>('site_id')!;
 
-    final manager = $$SitesTableTableManager(
-      $_db,
-      $_db.sites,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $$SitesTableTableManager($_db, $_db.sites)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 
   static $LotsTable _lotIdTable(_$AppDatabase db) => db.lots.createAlias(
-    $_aliasNameGenerator(db.inventorySnapshots.lotId, db.lots.id),
-  );
+      $_aliasNameGenerator(db.inventorySnapshots.lotId, db.lots.id));
 
   $$LotsTableProcessedTableManager get lotId {
     final $_column = $_itemColumn<int>('lot_id')!;
 
-    final manager = $$LotsTableTableManager(
-      $_db,
-      $_db.lots,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $$LotsTableTableManager($_db, $_db.lots)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_lotIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
@@ -1296,63 +1149,51 @@ class $$InventorySnapshotsTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get count => $composableBuilder(
-    column: $table.count,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.count, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get timestamp => $composableBuilder(
-    column: $table.timestamp,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.timestamp, builder: (column) => ColumnFilters(column));
 
   $$SitesTableFilterComposer get siteId {
     final $$SitesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableFilterComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.siteId,
+        referencedTable: $db.sites,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SitesTableFilterComposer(
+              $db: $db,
+              $table: $db.sites,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $$LotsTableFilterComposer get lotId {
     final $$LotsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.lotId,
-      referencedTable: $db.lots,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$LotsTableFilterComposer(
-            $db: $db,
-            $table: $db.lots,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.lotId,
+        referencedTable: $db.lots,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$LotsTableFilterComposer(
+              $db: $db,
+              $table: $db.lots,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -1367,63 +1208,51 @@ class $$InventorySnapshotsTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get count => $composableBuilder(
-    column: $table.count,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.count, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get timestamp => $composableBuilder(
-    column: $table.timestamp,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.timestamp, builder: (column) => ColumnOrderings(column));
 
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableOrderingComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.siteId,
+        referencedTable: $db.sites,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SitesTableOrderingComposer(
+              $db: $db,
+              $table: $db.sites,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $$LotsTableOrderingComposer get lotId {
     final $$LotsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.lotId,
-      referencedTable: $db.lots,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$LotsTableOrderingComposer(
-            $db: $db,
-            $table: $db.lots,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.lotId,
+        referencedTable: $db.lots,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$LotsTableOrderingComposer(
+              $db: $db,
+              $table: $db.lots,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -1448,71 +1277,60 @@ class $$InventorySnapshotsTableAnnotationComposer
 
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.siteId,
+        referencedTable: $db.sites,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$SitesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.sites,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $$LotsTableAnnotationComposer get lotId {
     final $$LotsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.lotId,
-      referencedTable: $db.lots,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$LotsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.lots,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.lotId,
+        referencedTable: $db.lots,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$LotsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.lots,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $$InventorySnapshotsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $InventorySnapshotsTable,
-          InventorySnapshot,
-          $$InventorySnapshotsTableFilterComposer,
-          $$InventorySnapshotsTableOrderingComposer,
-          $$InventorySnapshotsTableAnnotationComposer,
-          $$InventorySnapshotsTableCreateCompanionBuilder,
-          $$InventorySnapshotsTableUpdateCompanionBuilder,
-          (InventorySnapshot, $$InventorySnapshotsTableReferences),
-          InventorySnapshot,
-          PrefetchHooks Function({bool siteId, bool lotId})
-        > {
+class $$InventorySnapshotsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $InventorySnapshotsTable,
+    InventorySnapshot,
+    $$InventorySnapshotsTableFilterComposer,
+    $$InventorySnapshotsTableOrderingComposer,
+    $$InventorySnapshotsTableAnnotationComposer,
+    $$InventorySnapshotsTableCreateCompanionBuilder,
+    $$InventorySnapshotsTableUpdateCompanionBuilder,
+    (InventorySnapshot, $$InventorySnapshotsTableReferences),
+    InventorySnapshot,
+    PrefetchHooks Function({bool siteId, bool lotId})> {
   $$InventorySnapshotsTableTableManager(
-    _$AppDatabase db,
-    $InventorySnapshotsTable table,
-  ) : super(
-        TableManagerState(
+      _$AppDatabase db, $InventorySnapshotsTable table)
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1521,52 +1339,47 @@ class $$InventorySnapshotsTableTableManager
               $$InventorySnapshotsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$InventorySnapshotsTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> siteId = const Value.absent(),
-                Value<int> lotId = const Value.absent(),
-                Value<int> count = const Value.absent(),
-                Value<DateTime> timestamp = const Value.absent(),
-              }) => InventorySnapshotsCompanion(
-                id: id,
-                siteId: siteId,
-                lotId: lotId,
-                count: count,
-                timestamp: timestamp,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int siteId,
-                required int lotId,
-                required int count,
-                Value<DateTime> timestamp = const Value.absent(),
-              }) => InventorySnapshotsCompanion.insert(
-                id: id,
-                siteId: siteId,
-                lotId: lotId,
-                count: count,
-                timestamp: timestamp,
-              ),
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> siteId = const Value.absent(),
+            Value<int> lotId = const Value.absent(),
+            Value<int> count = const Value.absent(),
+            Value<DateTime> timestamp = const Value.absent(),
+          }) =>
+              InventorySnapshotsCompanion(
+            id: id,
+            siteId: siteId,
+            lotId: lotId,
+            count: count,
+            timestamp: timestamp,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int siteId,
+            required int lotId,
+            required int count,
+            Value<DateTime> timestamp = const Value.absent(),
+          }) =>
+              InventorySnapshotsCompanion.insert(
+            id: id,
+            siteId: siteId,
+            lotId: lotId,
+            count: count,
+            timestamp: timestamp,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$InventorySnapshotsTableReferences(db, table, e),
-                ),
-              )
+              .map((e) => (
+                    e.readTable(table),
+                    $$InventorySnapshotsTableReferences(db, table, e)
+                  ))
               .toList(),
           prefetchHooksCallback: ({siteId = false, lotId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -1577,65 +1390,50 @@ class $$InventorySnapshotsTableTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (siteId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.siteId,
-                                referencedTable:
-                                    $$InventorySnapshotsTableReferences
-                                        ._siteIdTable(db),
-                                referencedColumn:
-                                    $$InventorySnapshotsTableReferences
-                                        ._siteIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
-                    if (lotId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.lotId,
-                                referencedTable:
-                                    $$InventorySnapshotsTableReferences
-                                        ._lotIdTable(db),
-                                referencedColumn:
-                                    $$InventorySnapshotsTableReferences
-                                        ._lotIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (siteId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.siteId,
+                    referencedTable:
+                        $$InventorySnapshotsTableReferences._siteIdTable(db),
+                    referencedColumn:
+                        $$InventorySnapshotsTableReferences._siteIdTable(db).id,
+                  ) as T;
+                }
+                if (lotId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.lotId,
+                    referencedTable:
+                        $$InventorySnapshotsTableReferences._lotIdTable(db),
+                    referencedColumn:
+                        $$InventorySnapshotsTableReferences._lotIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $$InventorySnapshotsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $InventorySnapshotsTable,
-      InventorySnapshot,
-      $$InventorySnapshotsTableFilterComposer,
-      $$InventorySnapshotsTableOrderingComposer,
-      $$InventorySnapshotsTableAnnotationComposer,
-      $$InventorySnapshotsTableCreateCompanionBuilder,
-      $$InventorySnapshotsTableUpdateCompanionBuilder,
-      (InventorySnapshot, $$InventorySnapshotsTableReferences),
-      InventorySnapshot,
-      PrefetchHooks Function({bool siteId, bool lotId})
-    >;
+typedef $$InventorySnapshotsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $InventorySnapshotsTable,
+    InventorySnapshot,
+    $$InventorySnapshotsTableFilterComposer,
+    $$InventorySnapshotsTableOrderingComposer,
+    $$InventorySnapshotsTableAnnotationComposer,
+    $$InventorySnapshotsTableCreateCompanionBuilder,
+    $$InventorySnapshotsTableUpdateCompanionBuilder,
+    (InventorySnapshot, $$InventorySnapshotsTableReferences),
+    InventorySnapshot,
+    PrefetchHooks Function({bool siteId, bool lotId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
