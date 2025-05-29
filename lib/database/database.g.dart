@@ -231,8 +231,19 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _expirationDateMeta = const VerificationMeta(
+    'expirationDate',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, lotNumber];
+  late final GeneratedColumn<DateTime> expirationDate = GeneratedColumn<DateTime>(
+    'expiration_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, lotNumber, expirationDate];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -256,6 +267,12 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
     } else if (isInserting) {
       context.missing(_lotNumberMeta);
     }
+    if (data.containsKey('expiration_date')) {
+      context.handle(
+        _expirationDateMeta,
+        expirationDate.isAcceptableOrUnknown(data['expiration_date']!, _expirationDateMeta),
+      );
+    }
     return context;
   }
 
@@ -273,6 +290,10 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
         DriftSqlType.string,
         data['${effectivePrefix}lot_number'],
       )!,
+      expirationDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}expiration_date'],
+      ),
     );
   }
 
@@ -285,17 +306,27 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
 class Lot extends DataClass implements Insertable<Lot> {
   final int id;
   final String lotNumber;
-  const Lot({required this.id, required this.lotNumber});
+  final DateTime? expirationDate;
+  const Lot({required this.id, required this.lotNumber, this.expirationDate});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['lot_number'] = Variable<String>(lotNumber);
+    if (!nullToAbsent || expirationDate != null) {
+      map['expiration_date'] = Variable<DateTime>(expirationDate);
+    }
     return map;
   }
 
   LotsCompanion toCompanion(bool nullToAbsent) {
-    return LotsCompanion(id: Value(id), lotNumber: Value(lotNumber));
+    return LotsCompanion(
+      id: Value(id),
+      lotNumber: Value(lotNumber),
+      expirationDate: expirationDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expirationDate),
+    );
   }
 
   factory Lot.fromJson(
@@ -306,6 +337,7 @@ class Lot extends DataClass implements Insertable<Lot> {
     return Lot(
       id: serializer.fromJson<int>(json['id']),
       lotNumber: serializer.fromJson<String>(json['lotNumber']),
+      expirationDate: serializer.fromJson<DateTime?>(json['expirationDate']),
     );
   }
   @override
@@ -314,15 +346,21 @@ class Lot extends DataClass implements Insertable<Lot> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'lotNumber': serializer.toJson<String>(lotNumber),
+      'expirationDate': serializer.toJson<DateTime?>(expirationDate),
     };
   }
 
-  Lot copyWith({int? id, String? lotNumber}) =>
-      Lot(id: id ?? this.id, lotNumber: lotNumber ?? this.lotNumber);
+  Lot copyWith({int? id, String? lotNumber, Value<DateTime?> expirationDate = const Value.absent()}) =>
+      Lot(
+        id: id ?? this.id, 
+        lotNumber: lotNumber ?? this.lotNumber,
+        expirationDate: expirationDate.present ? expirationDate.value : this.expirationDate,
+      );
   Lot copyWithCompanion(LotsCompanion data) {
     return Lot(
       id: data.id.present ? data.id.value : this.id,
       lotNumber: data.lotNumber.present ? data.lotNumber.value : this.lotNumber,
+      expirationDate: data.expirationDate.present ? data.expirationDate.value : this.expirationDate,
     );
   }
 
@@ -330,46 +368,54 @@ class Lot extends DataClass implements Insertable<Lot> {
   String toString() {
     return (StringBuffer('Lot(')
           ..write('id: $id, ')
-          ..write('lotNumber: $lotNumber')
+          ..write('lotNumber: $lotNumber, ')
+          ..write('expirationDate: $expirationDate')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, lotNumber);
+  int get hashCode => Object.hash(id, lotNumber, expirationDate);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Lot &&
           other.id == this.id &&
-          other.lotNumber == this.lotNumber);
+          other.lotNumber == this.lotNumber &&
+          other.expirationDate == this.expirationDate);
 }
 
 class LotsCompanion extends UpdateCompanion<Lot> {
   final Value<int> id;
   final Value<String> lotNumber;
+  final Value<DateTime?> expirationDate;
   const LotsCompanion({
     this.id = const Value.absent(),
     this.lotNumber = const Value.absent(),
+    this.expirationDate = const Value.absent(),
   });
   LotsCompanion.insert({
     this.id = const Value.absent(),
     required String lotNumber,
+    this.expirationDate = const Value.absent(),
   }) : lotNumber = Value(lotNumber);
   static Insertable<Lot> custom({
     Expression<int>? id,
     Expression<String>? lotNumber,
+    Expression<DateTime>? expirationDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (lotNumber != null) 'lot_number': lotNumber,
+      if (expirationDate != null) 'expiration_date': expirationDate,
     });
   }
 
-  LotsCompanion copyWith({Value<int>? id, Value<String>? lotNumber}) {
+  LotsCompanion copyWith({Value<int>? id, Value<String>? lotNumber, Value<DateTime?>? expirationDate}) {
     return LotsCompanion(
       id: id ?? this.id,
       lotNumber: lotNumber ?? this.lotNumber,
+      expirationDate: expirationDate ?? this.expirationDate,
     );
   }
 
@@ -382,6 +428,9 @@ class LotsCompanion extends UpdateCompanion<Lot> {
     if (lotNumber.present) {
       map['lot_number'] = Variable<String>(lotNumber.value);
     }
+    if (expirationDate.present) {
+      map['expiration_date'] = Variable<DateTime>(expirationDate.value);
+    }
     return map;
   }
 
@@ -389,7 +438,8 @@ class LotsCompanion extends UpdateCompanion<Lot> {
   String toString() {
     return (StringBuffer('LotsCompanion(')
           ..write('id: $id, ')
-          ..write('lotNumber: $lotNumber')
+          ..write('lotNumber: $lotNumber, ')
+          ..write('expirationDate: $expirationDate')
           ..write(')'))
         .toString();
   }
