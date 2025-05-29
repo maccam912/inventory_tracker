@@ -3,13 +3,13 @@ import '../database/database.dart';
 import '../database/database_provider.dart';
 
 class LotsScreen extends StatefulWidget {
-  const LotsScreen({Key? key}) : super(key: key);
+  const LotsScreen({super.key});
 
   @override
-  _LotsScreenState createState() => _LotsScreenState();
+  LotsScreenState createState() => LotsScreenState();
 }
 
-class _LotsScreenState extends State<LotsScreen> {
+class LotsScreenState extends State<LotsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _lotNumberController = TextEditingController();
 
@@ -18,10 +18,11 @@ class _LotsScreenState extends State<LotsScreen> {
     _lotNumberController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final database = DatabaseProvider.of(context);
-    
+
     return Scaffold(
       body: Column(
         children: [
@@ -72,17 +73,17 @@ class _LotsScreenState extends State<LotsScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                
+
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                
+
                 final lots = snapshot.data ?? [];
-                
+
                 if (lots.isEmpty) {
                   return const Center(child: Text('No lots added yet'));
                 }
-                
+
                 return ListView.builder(
                   itemCount: lots.length,
                   itemBuilder: (context, index) {
@@ -101,7 +102,9 @@ class _LotsScreenState extends State<LotsScreen> {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            final editController = TextEditingController(text: lot.lotNumber);
+                            final editController = TextEditingController(
+                              text: lot.lotNumber,
+                            );
                             return AlertDialog(
                               title: const Text('Edit Lot'),
                               content: TextField(
@@ -119,9 +122,13 @@ class _LotsScreenState extends State<LotsScreen> {
                                   onPressed: () async {
                                     if (editController.text.isNotEmpty) {
                                       await database.updateLot(
-                                        lot.copyWith(lotNumber: editController.text),
+                                        lot.copyWith(
+                                          lotNumber: editController.text,
+                                        ),
                                       );
-                                      Navigator.pop(context);
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
                                       setState(() {});
                                     }
                                   },

@@ -3,13 +3,13 @@ import '../database/database.dart';
 import '../database/database_provider.dart';
 
 class InventoryScreen extends StatefulWidget {
-  const InventoryScreen({Key? key}) : super(key: key);
+  const InventoryScreen({super.key});
 
   @override
-  _InventoryScreenState createState() => _InventoryScreenState();
+  InventoryScreenState createState() => InventoryScreenState();
 }
 
-class _InventoryScreenState extends State<InventoryScreen> {
+class InventoryScreenState extends State<InventoryScreen> {
   final _formKey = GlobalKey<FormState>();
   int? _selectedSiteId;
   int? _selectedLotId;
@@ -20,10 +20,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
     _countController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final database = DatabaseProvider.of(context);
-    
+
     return Scaffold(
       body: Column(
         children: [
@@ -39,16 +40,19 @@ class _InventoryScreenState extends State<InventoryScreen> {
                         child: FutureBuilder<List<Site>>(
                           future: database.getAllSites(),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return const CircularProgressIndicator();
                             }
-                            
+
                             final sites = snapshot.data ?? [];
-                            
+
                             if (sites.isEmpty) {
-                              return const Text('No sites available. Add sites first.');
+                              return const Text(
+                                'No sites available. Add sites first.',
+                              );
                             }
-                            
+
                             return DropdownButtonFormField<int>(
                               value: _selectedSiteId,
                               decoration: const InputDecoration(
@@ -81,16 +85,19 @@ class _InventoryScreenState extends State<InventoryScreen> {
                         child: FutureBuilder<List<Lot>>(
                           future: database.getAllLots(),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return const CircularProgressIndicator();
                             }
-                            
+
                             final lots = snapshot.data ?? [];
-                            
+
                             if (lots.isEmpty) {
-                              return const Text('No lots available. Add lots first.');
+                              return const Text(
+                                'No lots available. Add lots first.',
+                              );
                             }
-                            
+
                             return DropdownButtonFormField<int>(
                               value: _selectedLotId,
                               decoration: const InputDecoration(
@@ -172,23 +179,27 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                
+
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                
+
                 final snapshots = snapshot.data ?? [];
-                
+
                 if (snapshots.isEmpty) {
-                  return const Center(child: Text('No inventory data added yet'));
+                  return const Center(
+                    child: Text('No inventory data added yet'),
+                  );
                 }
-                
+
                 return ListView.builder(
                   itemCount: snapshots.length,
                   itemBuilder: (context, index) {
                     final inventoryData = snapshots[index];
                     return ListTile(
-                      title: Text('${inventoryData.site.siteName} - ${inventoryData.lot.lotNumber}'),
+                      title: Text(
+                        '${inventoryData.site.siteName} - ${inventoryData.lot.lotNumber}',
+                      ),
                       subtitle: Text('Count: ${inventoryData.snapshot.count}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -200,7 +211,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                           IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () async {
-                              await database.deleteInventorySnapshot(inventoryData.snapshot.id);
+                              await database.deleteInventorySnapshot(
+                                inventoryData.snapshot.id,
+                              );
                               setState(() {});
                             },
                           ),
@@ -216,7 +229,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
       ),
     );
   }
-  
+
   String _formatDate(DateTime date) {
     return '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
   }

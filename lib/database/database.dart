@@ -23,7 +23,8 @@ class InventorySnapshots extends Table {
   IntColumn get siteId => integer().references(Sites, #id)();
   IntColumn get lotId => integer().references(Lots, #id)();
   IntColumn get count => integer()();
-  DateTimeColumn get timestamp => dateTime().withDefault(Constant(DateTime.now()))();
+  DateTimeColumn get timestamp =>
+      dateTime().withDefault(Constant(DateTime.now()))();
 }
 
 @DriftDatabase(tables: [Sites, Lots, InventorySnapshots])
@@ -46,26 +47,33 @@ class AppDatabase extends _$AppDatabase {
   }
 
   // Close the database
+  @override
   Future<void> close() => executor.close();
-  
+
   // Site operations
   Future<List<Site>> getAllSites() => select(sites).get();
-  Future<Site> getSiteById(int id) => (select(sites)..where((s) => s.id.equals(id))).getSingle();
+  Future<Site> getSiteById(int id) =>
+      (select(sites)..where((s) => s.id.equals(id))).getSingle();
   Future<int> insertSite(SitesCompanion site) => into(sites).insert(site);
   Future<bool> updateSite(Site site) => update(sites).replace(site);
-  Future<int> deleteSite(int id) => (delete(sites)..where((s) => s.id.equals(id))).go();
+  Future<int> deleteSite(int id) =>
+      (delete(sites)..where((s) => s.id.equals(id))).go();
 
   // Lot operations
   Future<List<Lot>> getAllLots() => select(lots).get();
-  Future<Lot> getLotById(int id) => (select(lots)..where((l) => l.id.equals(id))).getSingle();
+  Future<Lot> getLotById(int id) =>
+      (select(lots)..where((l) => l.id.equals(id))).getSingle();
   Future<int> insertLot(LotsCompanion lot) => into(lots).insert(lot);
   Future<bool> updateLot(Lot lot) => update(lots).replace(lot);
-  Future<int> deleteLot(int id) => (delete(lots)..where((l) => l.id.equals(id))).go();
+  Future<int> deleteLot(int id) =>
+      (delete(lots)..where((l) => l.id.equals(id))).go();
 
   // Inventory Snapshot operations
-  Future<List<InventorySnapshot>> getAllInventorySnapshots() => select(inventorySnapshots).get();
-  
-  Future<List<InventorySnapshotWithDetails>> getAllInventorySnapshotsWithDetails() {
+  Future<List<InventorySnapshot>> getAllInventorySnapshots() =>
+      select(inventorySnapshots).get();
+
+  Future<List<InventorySnapshotWithDetails>>
+  getAllInventorySnapshotsWithDetails() {
     final query = select(inventorySnapshots).join([
       innerJoin(sites, sites.id.equalsExp(inventorySnapshots.siteId)),
       innerJoin(lots, lots.id.equalsExp(inventorySnapshots.lotId)),

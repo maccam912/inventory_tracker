@@ -5,13 +5,14 @@ class DatabaseProvider extends InheritedWidget {
   final AppDatabase database;
 
   const DatabaseProvider({
-    Key? key,
+    super.key,
     required this.database,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   static AppDatabase of(BuildContext context) {
-    final provider = context.dependOnInheritedWidgetOfExactType<DatabaseProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<DatabaseProvider>();
     return provider!.database;
   }
 
