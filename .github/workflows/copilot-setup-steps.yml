@@ -41,8 +41,11 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+
       - name: Install pre-commit
-        run: pip3 install pre-commit
+        run: uv tool install pre-commit
 
       - name: Install pre-commit hooks
         run: pre-commit install
