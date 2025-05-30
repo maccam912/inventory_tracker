@@ -264,15 +264,37 @@ class LotsScreenState extends State<LotsScreen> {
                     final lot = lots[index];
                     return ListTile(
                       title: Text(lot.lotNumber),
-                      subtitle: lot.expirationDate != null
-                          ? Text('Expires: ${_formatDate(lot.expirationDate)}')
-                          : const Text('No expiration date'),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          await database.deleteLot(lot.id);
-                          setState(() {});
-                        },
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          lot.expirationDate != null
+                              ? Text(
+                                  'Expires: ${_formatDate(lot.expirationDate)}',
+                                )
+                              : const Text('No expiration date'),
+                          Text(lot.isActive ? 'Active' : 'Inactive'),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Switch(
+                            value: lot.isActive,
+                            onChanged: (value) async {
+                              await database.updateLot(
+                                lot.copyWith(isActive: value),
+                              );
+                              setState(() {});
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () async {
+                              await database.deleteLot(lot.id);
+                              setState(() {});
+                            },
+                          ),
+                        ],
                       ),
                       onTap: () {
                         _showEditLotDialog(context, lot, database);

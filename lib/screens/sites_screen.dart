@@ -90,12 +90,27 @@ class SitesScreenState extends State<SitesScreen> {
                     final site = sites[index];
                     return ListTile(
                       title: Text(site.siteName),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          await database.deleteSite(site.id);
-                          setState(() {});
-                        },
+                      subtitle: Text(site.isActive ? 'Active' : 'Inactive'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Switch(
+                            value: site.isActive,
+                            onChanged: (value) async {
+                              await database.updateSite(
+                                site.copyWith(isActive: value),
+                              );
+                              setState(() {});
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () async {
+                              await database.deleteSite(site.id);
+                              setState(() {});
+                            },
+                          ),
+                        ],
                       ),
                       onTap: () {
                         // Edit site dialog
