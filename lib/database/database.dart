@@ -118,6 +118,73 @@ class AppDatabase extends _$AppDatabase {
 
   Future<int> deleteInventorySnapshot(int id) =>
       (delete(inventorySnapshots)..where((s) => s.id.equals(id))).go();
+
+  // Reports operations
+  Future<List<InventorySnapshotWithDetails>> getInventoryByLotAcrossSites(
+    int lotId,
+  ) {
+    final query =
+        select(inventorySnapshots).join([
+          innerJoin(sites, sites.id.equalsExp(inventorySnapshots.siteId)),
+          innerJoin(lots, lots.id.equalsExp(inventorySnapshots.lotId)),
+        ])..where(
+          sites.isActive.equals(true) & inventorySnapshots.lotId.equals(lotId),
+        );
+
+    return query.map((row) {
+      final snapshot = row.readTable(inventorySnapshots);
+      final site = row.readTable(sites);
+      final lot = row.readTable(lots);
+
+      return InventorySnapshotWithDetails(
+        snapshot: snapshot,
+        site: site,
+        lot: lot,
+      );
+    }).get();
+  }
+
+  Future<List<InventorySnapshotWithDetails>> getLatestInventoryForSite(
+    int siteId,
+  ) async {
+    // First get all active lots
+    final activeLots = await getActiveLots();
+
+    final results = <InventorySnapshotWithDetails>[];
+
+    // For each active lot, get the latest inventory snapshot for the selected site
+    for (final lot in activeLots) {
+      final query =
+          select(inventorySnapshots).join([
+              innerJoin(sites, sites.id.equalsExp(inventorySnapshots.siteId)),
+              innerJoin(lots, lots.id.equalsExp(inventorySnapshots.lotId)),
+            ])
+            ..where(
+              inventorySnapshots.siteId.equals(siteId) &
+                  inventorySnapshots.lotId.equals(lot.id),
+            )
+            ..orderBy([OrderingTerm.desc(inventorySnapshots.timestamp)])
+            ..limit(1);
+
+      final snapshotsForLot = await query.map((row) {
+        final snapshot = row.readTable(inventorySnapshots);
+        final site = row.readTable(sites);
+        final lot = row.readTable(lots);
+
+        return InventorySnapshotWithDetails(
+          snapshot: snapshot,
+          site: site,
+          lot: lot,
+        );
+      }).get();
+
+      if (snapshotsForLot.isNotEmpty) {
+        results.add(snapshotsForLot.first);
+      }
+    }
+
+    return results;
+  }
 }
 
 // Custom class to hold joined data
