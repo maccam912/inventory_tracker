@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../database/database.dart';
 import '../database/database_provider.dart';
+import '../settings/deletion_settings.dart';
 
 class InventoryScreen extends StatefulWidget {
   const InventoryScreen({super.key});
@@ -210,12 +211,17 @@ class InventoryScreenState extends State<InventoryScreen> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              await database.deleteInventorySnapshot(
-                                inventoryData.snapshot.id,
-                              );
-                              setState(() {});
-                            },
+                            onPressed:
+                                DeletionSettingsProvider.of(
+                                  context,
+                                ).isDeletionEnabled
+                                ? () async {
+                                    await database.deleteInventorySnapshot(
+                                      inventoryData.snapshot.id,
+                                    );
+                                    setState(() {});
+                                  }
+                                : null,
                           ),
                         ],
                       ),

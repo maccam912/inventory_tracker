@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'database/database.dart';
 import 'database/database_provider.dart';
 import 'screens/home_screen.dart';
+import 'settings/deletion_settings.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final database = AppDatabase();
+  final deletionSettings = DeletionSettings();
 
-  runApp(DatabaseProvider(database: database, child: const MyApp()));
+  runApp(
+    DatabaseProvider(
+      database: database,
+      child: DeletionSettingsProvider(
+        settings: deletionSettings,
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

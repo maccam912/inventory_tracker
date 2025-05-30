@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../database/database.dart';
 import '../database/database_provider.dart';
+import '../settings/deletion_settings.dart';
 
 class SitesScreen extends StatefulWidget {
   const SitesScreen({super.key});
@@ -105,10 +106,15 @@ class SitesScreenState extends State<SitesScreen> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              await database.deleteSite(site.id);
-                              setState(() {});
-                            },
+                            onPressed:
+                                DeletionSettingsProvider.of(
+                                  context,
+                                ).isDeletionEnabled
+                                ? () async {
+                                    await database.deleteSite(site.id);
+                                    setState(() {});
+                                  }
+                                : null,
                           ),
                         ],
                       ),
