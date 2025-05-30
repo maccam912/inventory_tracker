@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:drift/drift.dart' show Value;
 import '../database/database.dart';
 import '../database/database_provider.dart';
+import '../settings/deletion_settings.dart';
 
 class LotsScreen extends StatefulWidget {
   const LotsScreen({super.key});
@@ -289,10 +290,15 @@ class LotsScreenState extends State<LotsScreen> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              await database.deleteLot(lot.id);
-                              setState(() {});
-                            },
+                            onPressed:
+                                DeletionSettingsProvider.of(
+                                  context,
+                                ).isDeletionEnabled
+                                ? () async {
+                                    await database.deleteLot(lot.id);
+                                    setState(() {});
+                                  }
+                                : null,
                           ),
                         ],
                       ),

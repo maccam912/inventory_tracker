@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'sites_screen.dart';
 import 'lots_screen.dart';
 import 'inventory_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +18,7 @@ class HomeScreenState extends State<HomeScreen> {
     const SitesScreen(),
     const LotsScreen(),
     const InventoryScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -44,6 +46,10 @@ class HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.assessment),
             label: 'Inventory',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
