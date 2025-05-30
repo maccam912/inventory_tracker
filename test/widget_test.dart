@@ -32,6 +32,10 @@ void main() {
                 label: 'Inventory',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart),
+                label: 'Reports',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
                 label: 'Settings',
               ),
@@ -51,6 +55,7 @@ void main() {
     expect(find.text('Sites'), findsOneWidget);
     expect(find.text('Lots'), findsOneWidget);
     expect(find.text('Inventory'), findsOneWidget);
+    expect(find.text('Reports'), findsOneWidget);
     expect(find.text('Settings'), findsOneWidget);
 
     // Verify basic app functionality
