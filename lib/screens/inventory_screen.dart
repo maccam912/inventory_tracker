@@ -38,7 +38,7 @@ class InventoryScreenState extends State<InventoryScreen> {
                     children: [
                       Expanded(
                         child: FutureBuilder<List<Site>>(
-                          future: database.getAllSites(),
+                          future: database.getActiveSites(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -49,7 +49,7 @@ class InventoryScreenState extends State<InventoryScreen> {
 
                             if (sites.isEmpty) {
                               return const Text(
-                                'No sites available. Add sites first.',
+                                'No active sites available. Add sites and mark them as active.',
                               );
                             }
 
@@ -83,7 +83,7 @@ class InventoryScreenState extends State<InventoryScreen> {
                       const SizedBox(width: 16.0),
                       Expanded(
                         child: FutureBuilder<List<Lot>>(
-                          future: database.getAllLots(),
+                          future: database.getActiveLots(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -94,7 +94,7 @@ class InventoryScreenState extends State<InventoryScreen> {
 
                             if (lots.isEmpty) {
                               return const Text(
-                                'No lots available. Add lots first.',
+                                'No active lots available. Add lots and mark them as active.',
                               );
                             }
 

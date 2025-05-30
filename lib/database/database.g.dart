@@ -36,8 +36,23 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, siteName];
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, siteName, isActive];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -61,6 +76,12 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
     } else if (isInserting) {
       context.missing(_siteNameMeta);
     }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
     return context;
   }
 
@@ -78,6 +99,10 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
         DriftSqlType.string,
         data['${effectivePrefix}site_name'],
       )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
     );
   }
 
@@ -90,17 +115,27 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
 class Site extends DataClass implements Insertable<Site> {
   final int id;
   final String siteName;
-  const Site({required this.id, required this.siteName});
+  final bool isActive;
+  const Site({
+    required this.id,
+    required this.siteName,
+    required this.isActive,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['site_name'] = Variable<String>(siteName);
+    map['is_active'] = Variable<bool>(isActive);
     return map;
   }
 
   SitesCompanion toCompanion(bool nullToAbsent) {
-    return SitesCompanion(id: Value(id), siteName: Value(siteName));
+    return SitesCompanion(
+      id: Value(id),
+      siteName: Value(siteName),
+      isActive: Value(isActive),
+    );
   }
 
   factory Site.fromJson(
@@ -111,6 +146,7 @@ class Site extends DataClass implements Insertable<Site> {
     return Site(
       id: serializer.fromJson<int>(json['id']),
       siteName: serializer.fromJson<String>(json['siteName']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
     );
   }
   @override
@@ -119,15 +155,20 @@ class Site extends DataClass implements Insertable<Site> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'siteName': serializer.toJson<String>(siteName),
+      'isActive': serializer.toJson<bool>(isActive),
     };
   }
 
-  Site copyWith({int? id, String? siteName}) =>
-      Site(id: id ?? this.id, siteName: siteName ?? this.siteName);
+  Site copyWith({int? id, String? siteName, bool? isActive}) => Site(
+    id: id ?? this.id,
+    siteName: siteName ?? this.siteName,
+    isActive: isActive ?? this.isActive,
+  );
   Site copyWithCompanion(SitesCompanion data) {
     return Site(
       id: data.id.present ? data.id.value : this.id,
       siteName: data.siteName.present ? data.siteName.value : this.siteName,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
     );
   }
 
@@ -135,44 +176,58 @@ class Site extends DataClass implements Insertable<Site> {
   String toString() {
     return (StringBuffer('Site(')
           ..write('id: $id, ')
-          ..write('siteName: $siteName')
+          ..write('siteName: $siteName, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, siteName);
+  int get hashCode => Object.hash(id, siteName, isActive);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Site && other.id == this.id && other.siteName == this.siteName);
+      (other is Site &&
+          other.id == this.id &&
+          other.siteName == this.siteName &&
+          other.isActive == this.isActive);
 }
 
 class SitesCompanion extends UpdateCompanion<Site> {
   final Value<int> id;
   final Value<String> siteName;
+  final Value<bool> isActive;
   const SitesCompanion({
     this.id = const Value.absent(),
     this.siteName = const Value.absent(),
+    this.isActive = const Value.absent(),
   });
   SitesCompanion.insert({
     this.id = const Value.absent(),
     required String siteName,
+    this.isActive = const Value.absent(),
   }) : siteName = Value(siteName);
   static Insertable<Site> custom({
     Expression<int>? id,
     Expression<String>? siteName,
+    Expression<bool>? isActive,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (siteName != null) 'site_name': siteName,
+      if (isActive != null) 'is_active': isActive,
     });
   }
 
-  SitesCompanion copyWith({Value<int>? id, Value<String>? siteName}) {
+  SitesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? siteName,
+    Value<bool>? isActive,
+  }) {
     return SitesCompanion(
       id: id ?? this.id,
       siteName: siteName ?? this.siteName,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -185,6 +240,9 @@ class SitesCompanion extends UpdateCompanion<Site> {
     if (siteName.present) {
       map['site_name'] = Variable<String>(siteName.value);
     }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
     return map;
   }
 
@@ -192,7 +250,8 @@ class SitesCompanion extends UpdateCompanion<Site> {
   String toString() {
     return (StringBuffer('SitesCompanion(')
           ..write('id: $id, ')
-          ..write('siteName: $siteName')
+          ..write('siteName: $siteName, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
@@ -243,8 +302,28 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, lotNumber, expirationDate];
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    lotNumber,
+    expirationDate,
+    isActive,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -277,6 +356,12 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
         ),
       );
     }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
     return context;
   }
 
@@ -298,6 +383,10 @@ class $LotsTable extends Lots with TableInfo<$LotsTable, Lot> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}expiration_date'],
       ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
     );
   }
 
@@ -311,7 +400,13 @@ class Lot extends DataClass implements Insertable<Lot> {
   final int id;
   final String lotNumber;
   final DateTime? expirationDate;
-  const Lot({required this.id, required this.lotNumber, this.expirationDate});
+  final bool isActive;
+  const Lot({
+    required this.id,
+    required this.lotNumber,
+    this.expirationDate,
+    required this.isActive,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -320,6 +415,7 @@ class Lot extends DataClass implements Insertable<Lot> {
     if (!nullToAbsent || expirationDate != null) {
       map['expiration_date'] = Variable<DateTime>(expirationDate);
     }
+    map['is_active'] = Variable<bool>(isActive);
     return map;
   }
 
@@ -330,6 +426,7 @@ class Lot extends DataClass implements Insertable<Lot> {
       expirationDate: expirationDate == null && nullToAbsent
           ? const Value.absent()
           : Value(expirationDate),
+      isActive: Value(isActive),
     );
   }
 
@@ -342,6 +439,7 @@ class Lot extends DataClass implements Insertable<Lot> {
       id: serializer.fromJson<int>(json['id']),
       lotNumber: serializer.fromJson<String>(json['lotNumber']),
       expirationDate: serializer.fromJson<DateTime?>(json['expirationDate']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
     );
   }
   @override
@@ -351,6 +449,7 @@ class Lot extends DataClass implements Insertable<Lot> {
       'id': serializer.toJson<int>(id),
       'lotNumber': serializer.toJson<String>(lotNumber),
       'expirationDate': serializer.toJson<DateTime?>(expirationDate),
+      'isActive': serializer.toJson<bool>(isActive),
     };
   }
 
@@ -358,12 +457,14 @@ class Lot extends DataClass implements Insertable<Lot> {
     int? id,
     String? lotNumber,
     Value<DateTime?> expirationDate = const Value.absent(),
+    bool? isActive,
   }) => Lot(
     id: id ?? this.id,
     lotNumber: lotNumber ?? this.lotNumber,
     expirationDate: expirationDate.present
         ? expirationDate.value
         : this.expirationDate,
+    isActive: isActive ?? this.isActive,
   );
   Lot copyWithCompanion(LotsCompanion data) {
     return Lot(
@@ -372,6 +473,7 @@ class Lot extends DataClass implements Insertable<Lot> {
       expirationDate: data.expirationDate.present
           ? data.expirationDate.value
           : this.expirationDate,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
     );
   }
 
@@ -380,45 +482,52 @@ class Lot extends DataClass implements Insertable<Lot> {
     return (StringBuffer('Lot(')
           ..write('id: $id, ')
           ..write('lotNumber: $lotNumber, ')
-          ..write('expirationDate: $expirationDate')
+          ..write('expirationDate: $expirationDate, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, lotNumber, expirationDate);
+  int get hashCode => Object.hash(id, lotNumber, expirationDate, isActive);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Lot &&
           other.id == this.id &&
           other.lotNumber == this.lotNumber &&
-          other.expirationDate == this.expirationDate);
+          other.expirationDate == this.expirationDate &&
+          other.isActive == this.isActive);
 }
 
 class LotsCompanion extends UpdateCompanion<Lot> {
   final Value<int> id;
   final Value<String> lotNumber;
   final Value<DateTime?> expirationDate;
+  final Value<bool> isActive;
   const LotsCompanion({
     this.id = const Value.absent(),
     this.lotNumber = const Value.absent(),
     this.expirationDate = const Value.absent(),
+    this.isActive = const Value.absent(),
   });
   LotsCompanion.insert({
     this.id = const Value.absent(),
     required String lotNumber,
     this.expirationDate = const Value.absent(),
+    this.isActive = const Value.absent(),
   }) : lotNumber = Value(lotNumber);
   static Insertable<Lot> custom({
     Expression<int>? id,
     Expression<String>? lotNumber,
     Expression<DateTime>? expirationDate,
+    Expression<bool>? isActive,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (lotNumber != null) 'lot_number': lotNumber,
       if (expirationDate != null) 'expiration_date': expirationDate,
+      if (isActive != null) 'is_active': isActive,
     });
   }
 
@@ -426,11 +535,13 @@ class LotsCompanion extends UpdateCompanion<Lot> {
     Value<int>? id,
     Value<String>? lotNumber,
     Value<DateTime?>? expirationDate,
+    Value<bool>? isActive,
   }) {
     return LotsCompanion(
       id: id ?? this.id,
       lotNumber: lotNumber ?? this.lotNumber,
       expirationDate: expirationDate ?? this.expirationDate,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -446,6 +557,9 @@ class LotsCompanion extends UpdateCompanion<Lot> {
     if (expirationDate.present) {
       map['expiration_date'] = Variable<DateTime>(expirationDate.value);
     }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
     return map;
   }
 
@@ -454,7 +568,8 @@ class LotsCompanion extends UpdateCompanion<Lot> {
     return (StringBuffer('LotsCompanion(')
           ..write('id: $id, ')
           ..write('lotNumber: $lotNumber, ')
-          ..write('expirationDate: $expirationDate')
+          ..write('expirationDate: $expirationDate, ')
+          ..write('isActive: $isActive')
           ..write(')'))
         .toString();
   }
@@ -824,9 +939,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 }
 
 typedef $$SitesTableCreateCompanionBuilder =
-    SitesCompanion Function({Value<int> id, required String siteName});
+    SitesCompanion Function({
+      Value<int> id,
+      required String siteName,
+      Value<bool> isActive,
+    });
 typedef $$SitesTableUpdateCompanionBuilder =
-    SitesCompanion Function({Value<int> id, Value<String> siteName});
+    SitesCompanion Function({
+      Value<int> id,
+      Value<String> siteName,
+      Value<bool> isActive,
+    });
 
 final class $$SitesTableReferences
     extends BaseReferences<_$AppDatabase, $SitesTable, Site> {
@@ -875,6 +998,11 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> inventorySnapshotsRefs(
     Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f,
   ) {
@@ -919,6 +1047,11 @@ class $$SitesTableOrderingComposer
     column: $table.siteName,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SitesTableAnnotationComposer
@@ -935,6 +1068,9 @@ class $$SitesTableAnnotationComposer
 
   GeneratedColumn<String> get siteName =>
       $composableBuilder(column: $table.siteName, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
 
   Expression<T> inventorySnapshotsRefs<T extends Object>(
     Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f,
@@ -993,12 +1129,22 @@ class $$SitesTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> siteName = const Value.absent(),
-              }) => SitesCompanion(id: id, siteName: siteName),
+                Value<bool> isActive = const Value.absent(),
+              }) => SitesCompanion(
+                id: id,
+                siteName: siteName,
+                isActive: isActive,
+              ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String siteName,
-              }) => SitesCompanion.insert(id: id, siteName: siteName),
+                Value<bool> isActive = const Value.absent(),
+              }) => SitesCompanion.insert(
+                id: id,
+                siteName: siteName,
+                isActive: isActive,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) =>
@@ -1059,12 +1205,14 @@ typedef $$LotsTableCreateCompanionBuilder =
       Value<int> id,
       required String lotNumber,
       Value<DateTime?> expirationDate,
+      Value<bool> isActive,
     });
 typedef $$LotsTableUpdateCompanionBuilder =
     LotsCompanion Function({
       Value<int> id,
       Value<String> lotNumber,
       Value<DateTime?> expirationDate,
+      Value<bool> isActive,
     });
 
 final class $$LotsTableReferences
@@ -1119,6 +1267,11 @@ class $$LotsTableFilterComposer extends Composer<_$AppDatabase, $LotsTable> {
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> inventorySnapshotsRefs(
     Expression<bool> Function($$InventorySnapshotsTableFilterComposer f) f,
   ) {
@@ -1167,6 +1320,11 @@ class $$LotsTableOrderingComposer extends Composer<_$AppDatabase, $LotsTable> {
     column: $table.expirationDate,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$LotsTableAnnotationComposer
@@ -1188,6 +1346,9 @@ class $$LotsTableAnnotationComposer
     column: $table.expirationDate,
     builder: (column) => column,
   );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
 
   Expression<T> inventorySnapshotsRefs<T extends Object>(
     Expression<T> Function($$InventorySnapshotsTableAnnotationComposer a) f,
@@ -1247,20 +1408,24 @@ class $$LotsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> lotNumber = const Value.absent(),
                 Value<DateTime?> expirationDate = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
               }) => LotsCompanion(
                 id: id,
                 lotNumber: lotNumber,
                 expirationDate: expirationDate,
+                isActive: isActive,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String lotNumber,
                 Value<DateTime?> expirationDate = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
               }) => LotsCompanion.insert(
                 id: id,
                 lotNumber: lotNumber,
                 expirationDate: expirationDate,
+                isActive: isActive,
               ),
           withReferenceMapper: (p0) => p0
               .map(
