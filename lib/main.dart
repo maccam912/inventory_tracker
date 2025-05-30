@@ -29,20 +29,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Inventory Tracker',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        colorScheme: const ColorScheme.dark(
+          brightness: Brightness.dark,
+          primary: Color(0xFF8A5CF6), // Lighter purple for primary elements
+          onPrimary: Color(0xFF1A0F2E), // Dark text on primary
+          secondary: Color(0xFF6366F1), // Indigo-blue accent
+          onSecondary: Color(0xFF1A0F2E), // Dark text on secondary
+          tertiary: Color(0xFF8B5DFF), // Bright purple accent
+          onTertiary: Color(0xFF1A0F2E), // Dark text on tertiary
+          surface: Color(0xFF1A0F2E), // Dark purple surface
+          onSurface: Color(0xFFE5DEFF), // Light purple text on dark surface
+          surfaceContainerHighest: Color(
+            0xFF2D1B3D,
+          ), // Slightly lighter surface
+          onSurfaceVariant: Color(
+            0xFFD0BCFF,
+          ), // Muted light purple for secondary text
+          outline: Color(0xFF6B46C1), // Purple outline color
+          error: Color(0xFFFF6B9D), // Pink-purple error color
+          onError: Color(0xFF1A0F2E), // Dark text on error
+        ),
       ),
       home: const HomeScreen(),
     );
