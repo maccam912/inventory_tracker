@@ -33,7 +33,13 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(
+          context,
+        ).colorScheme.onSurface.withValues(alpha: 0.6),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
